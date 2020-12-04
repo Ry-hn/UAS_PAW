@@ -5,7 +5,7 @@
           <p class="sub">Since 1995</p>
 
           <v-chip-group style="margin-left:290px; margin-top:50px">
-              <v-chip style="opacity:80%;" class="white">Click Kene Dab</v-chip>
+              <v-chip style="opacity:80%;" class="white" @click="metu">Click Kene Dab</v-chip>
           </v-chip-group>
       </div>
   </v-container>
@@ -13,7 +13,11 @@
 
 <script>
 export default {
-    
+    methods: {
+        metu() {
+            this.$router.push("/");
+        }
+    }
 }
 </script>
 

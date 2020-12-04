@@ -12,10 +12,26 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     mode:"history",
     routes: [{
-        path:"/",
-        name:"Home",
+        path:"/landingpage",
+        name:"landingpage",
         component: importComponent('LandingPage'),
+    }, 
+    {
+        path:"/login",
+        name:"Login",
+        component: importComponent('Login')
+    },
+    {
+        path:"/",
+        name:"Navbar",
+        component: importComponent('NavigationBar'),
+        children: [{
+            path:"/",
+            name:"menu",
+            component: importComponent('MenuPage')
+        }]
     }]
 });
+
 
 export default router;

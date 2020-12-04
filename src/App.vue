@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style>
-@import url('http://fonts.cdnfonts.com/css/redressed');
+  @import url('http://fonts.cdnfonts.com/css/redressed');
 </style>
