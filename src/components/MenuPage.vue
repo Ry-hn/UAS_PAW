@@ -3,7 +3,7 @@
     <v-layout col wrap>
         <v-flex style="width: 25%; " v-for="(product) in products" :key="product.id">
            
-            <v-card :loading="loading" class="mx-auto my-12" max-width="374">
+            <v-card class="mx-auto my-12" max-width="374">
                 <template slot="progress">
                     <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
                 </template>
