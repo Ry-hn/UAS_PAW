@@ -57,9 +57,9 @@
 
                 <v-row class="ml-16">
                     <v-col>
-                        <v-card-text>Number</v-card-text>
+                        <v-card-text>Phone Number</v-card-text>
                     </v-col>
-                    <v-text-field style="margin-right:10rem; margin-top:10px" v-model="formProfile.telepon"></v-text-field>
+                    <v-text-field type="number" style="margin-right:10rem; margin-top:10px" v-model="formProfile.telepon"></v-text-field>
                 </v-row>
             </v-card-text>
 
@@ -69,32 +69,34 @@
                     <v-col>
                         <v-card-text>Old Password</v-card-text>
                     </v-col>
-                    <v-text-field style="margin-right:10rem; margin-top:10px"></v-text-field>
+                    <v-text-field type="password" style="margin-right:10rem; margin-top:10px" v-model="formProfile.oldPassword"></v-text-field>
                 </v-row>
 
                 <v-row class="ml-16">
                     <v-col>
                         <v-card-text>New Password</v-card-text>
                     </v-col>
-                    <v-text-field style="margin-right:10rem; margin-top:10px"></v-text-field>
+                    <v-text-field type="password" style="margin-right:10rem; margin-top:10px" v-model="formProfile.newPassword"></v-text-field>
                 </v-row>
 
                 <v-row class="ml-16">
                     <v-col>
                         <v-card-text>Confirm Password</v-card-text>
                     </v-col>
-                    <v-text-field style="margin-right:10rem; margin-top:10px"></v-text-field>
+                    <v-text-field type="password" style="margin-right:10rem; margin-top:10px" v-model="confirmPassword"></v-text-field>
                 </v-row>
             </v-card-text>
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn>Cancel</v-btn>
-                <v-btn>Save</v-btn>
+                <v-btn v-if="user.role == 'USER'" color="red" @click="hapus">Hapus Akun</v-btn>
+                <v-btn color="green" @click="save">Save</v-btn>
             </v-card-actions>
 
         </v-card>
     </v-row>
+
+    <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom> {{error_message}} </v-snackbar>
 
 </v-main>
 </template>
@@ -126,8 +128,12 @@ export default {
                 oldPassword: '',
                 newPassword: '',
             },
+            confirmPassword: '',
             image: '',
             profileImg: '',
+            snackbar: false,
+            color: '',
+            error_message: '',
         }
     },
     methods: {
@@ -154,28 +160,55 @@ export default {
 
                 console.table(response);
             }).catch(e => {
-                console.table(e);
+                this.error_message = e.response.data.message;
+                this.color = "red";
+                this.snackbar = true;
             });
         },
         save() {
             let url = this.$api + '/user/' + localStorage.getItem('id');
-            this.$http.pust(url, {
-                
-            }).then( response => {
-                console.log(response);
-            }).catch(e => {
-                console.log(e);
-            })
-        },
-        resetForm() {
 
+            if (this.confirmPassword === this.formProfile.newPassword) {
+                this.$http.put(url, this.formProfile, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then(() => {
+                    location.reload();
+                }).catch(e => {
+                    this.error_message = e.response.data.message;
+                    this.color = "red";
+                    this.snackbar = true;
+                })
+            } else {
+                this.error_message = "Password Tidak Sesuai";
+                this.color = "red";
+                this.snackbar = true;
+            }
+        },
+        hapus() {
+            let url = this.$api + '/user/' + localStorage.getItem('id');
+            this.$http.delete(url, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then(() => {
+                this.$router.replace('/');
+                localStorage.removeItem('id');
+                localStorage.removeItem('token');
+                localStorage.removeItem('profileImg');
+            }).catch(e => {
+                this.error_message = e.response.data.message;
+                this.color = "red";
+                this.snackbar = true;
+            })
         },
         onChange(e) {
             const file = e.target.files[0]
             this.image = file
             this.profileImg = URL.createObjectURL(file)
 
-            if(this.image) {
+            if (this.image) {
                 let url = this.$api + '/user/image';
                 let dataFile = new FormData();
 
@@ -186,10 +219,10 @@ export default {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
-                }).then( response => {
+                }).then(response => {
                     localStorage.setItem('profileImg', response.data.user.gambar);
                     console.log(response);
-                }).catch( e => {
+                }).catch(e => {
                     console.log(e);
                 })
             }
@@ -202,5 +235,14 @@ export default {
 </script>
 
 <style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
 </style>

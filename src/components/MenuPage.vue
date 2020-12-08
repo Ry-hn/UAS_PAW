@@ -1,7 +1,7 @@
 <template>
 <v-container grid-list-md>
     <v-layout col wrap>
-        <v-flex style="width: 25%; " v-for="(product) in products" :key="product.id">
+        <v-flex style="width: 25%; " v-for="(product, index) in products" :key="index">
            
             <v-card class="mx-auto my-12" max-width="374">
                 <template slot="progress">
@@ -20,8 +20,8 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-text-field label="Jumlah"  type="number"></v-text-field>
-                    <v-btn color="deep-purple lighten-2" text @click="add(product.id)">
+                    <v-text-field label="Jumlah"  type="number" v-model="jumlah[index]"></v-text-field>
+                    <v-btn color="deep-purple lighten-2" text @click="add(index, product.id)">
                         ADD
                     </v-btn>
                 </v-card-actions>
@@ -36,7 +36,8 @@
 export default {
     data() {
         return {
-            products: []
+            products: [],
+            jumlah: [],
         };
     },
     methods: {
@@ -48,8 +49,8 @@ export default {
                     console.table(this.products);
                 });
         },
-        add(index) {
-            console.log(`index: ${index}`);
+        add(index, id) {
+            console.log(`index: ${index} jumlah: ${this.jumlah[index]} idProd: ${id}`);
         }
     },
     mounted() {
