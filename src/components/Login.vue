@@ -51,7 +51,7 @@
                                          
                                             <v-form>
                                                 <v-text-field v-model="name" label="Name" name="Name"  :rules="emptyRules" type="text" color="brown accent-3"></v-text-field>
-                                                <v-text-field v-model="telepon" label="Telepon" name="Telepon" :rules="emptyRules" color="brown accent-3"></v-text-field>
+                                                <v-text-field v-model="telepon" type="number" label="Telepon" name="Telepon" :rules="emptyRules" color="brown accent-3"></v-text-field>
                                                 <v-text-field v-model="email" label="Email" name="Email" :rules="emailRules" type="text" color="brown accent-3" />
                                                 <v-text-field v-model="password" label="Password" name="Pssword" :rules="emptyRules" type="password" color="brown accent-3" />
                                             </v-form>
@@ -149,3 +149,16 @@ export default {
     }
 };
 </script>
+
+<style >
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+</style>

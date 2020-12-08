@@ -1,8 +1,8 @@
 <template>
 <v-app>
     <v-toolbar class="mainHeader" max-height="60px">
-        <v-toolbar-title style="font-size:32px" to="/">
-            La Vearte
+        <v-toolbar-title style="font-size:32px">
+            <a style="text-decoration: none;" href="/">La Vearte</a>
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -13,7 +13,6 @@
 
         <v-menu open-on-hover offset-y>
             <template v-slot:activator="{ on }">
-                <!-- <v-icon v-if="localStorage.getItem('id')">mdi-account-circle</v-icon> -->
                 <v-avatar v-on="on" icon x-large>
                     <img :src="url" alt="">
                 </v-avatar>
