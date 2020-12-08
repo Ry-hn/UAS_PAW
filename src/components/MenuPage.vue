@@ -29,6 +29,9 @@
 
         </v-flex>
     </v-layout>
+
+    <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom> {{error_message}} </v-snackbar>
+
 </v-container>
 </template>
 
@@ -38,11 +41,14 @@ export default {
         return {
             products: [],
             jumlah: [],
+            snackbar:false,
+            color: '',
+            error_message: '',
         };
     },
     methods: {
         init() {
-            var url = this.$api + '/product';
+            let url = this.$api + '/product';
             this.$http.get(url)
                 .then(response => {
                     this.products = response.data.data;
@@ -50,8 +56,39 @@ export default {
                 });
         },
         add(index, id) {
-            console.log(`index: ${index} jumlah: ${this.jumlah[index]} idProd: ${id}`);
-        }
+            let url = this.$api + '/pesanan';
+
+            let formData = {
+                id_product: id,
+                id_user: localStorage.getItem('id'),
+                jumlah_pesan: this.jumlah[index]
+            };
+
+            this.$http.post(url, formData, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then( response => {
+                this.snackbar = true;
+                this.color = 'green';
+                this.error_message = response.data.message;
+
+                console.table(response);
+            } ).catch( e => {
+                this.snackbar = true;
+                this.color = 'red';
+                this.error_message = e.response.data.message;
+
+                console.table(e);
+            })
+
+            this.jumlah[index] = 0;
+        },
+        resetSnackBar() {
+            this.snackbar = false;
+            this.color = '';
+            this.error_message= '';
+        },
     },
     mounted() {
         this.init();

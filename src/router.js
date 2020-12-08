@@ -40,6 +40,12 @@ const router = new VueRouter({
             meta: {title: 'profile', mustLogin: true},
             component: importComponent('Profile'),
         },
+        {
+            path:"/tablepesanan",
+            name:"Table Pesanan",
+            meta: {title: 'Table Pesanan', mustLogin: true},
+            component: importComponent('TablePesanan'),
+        }
         ]
     },
     {

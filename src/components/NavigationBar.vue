@@ -7,7 +7,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn icon href="/shoppingcart">
+        <v-btn icon href="/tablePesanan">
             <v-icon>mdi-cart</v-icon>
         </v-btn>
 
@@ -41,7 +41,7 @@
 export default {
     data() {
         return {
-            url:'',
+            url: '',
         };
     },
     methods: {
@@ -60,10 +60,10 @@ export default {
             }
         },
         loadUrl() {
-            
+
             this.url = localStorage.getItem('profileImg') ? this.$api + '/user/image/' + localStorage.getItem('profileImg') :
-                    'https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png';
-        }
+                'https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png';
+        },
     },
     mounted() {
         this.loadUrl();
