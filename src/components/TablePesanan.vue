@@ -27,10 +27,6 @@
         </template>
     </v-data-table>
 
-    <template>
-
-    </template>
-
     <v-dialog v-model="dialogEdit" max-width="400px">
         <v-card>
             <v-card-title>Ubah Jumlah Pesan</v-card-title>
@@ -182,11 +178,6 @@ export default {
                     console.table(e.response);
                 })
         }
-    },
-    computed: {
-        // totalHarga() {
-        //     return 
-        // }
     },
     mounted() {
         this.loadPesanan();

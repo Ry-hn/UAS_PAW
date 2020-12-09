@@ -21,7 +21,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-text-field label="Jumlah"  type="number" v-model="jumlah[index]"></v-text-field>
-                    <v-btn color="deep-purple lighten-2" text @click="add(index, product.id)">
+                    <v-btn color="deep-purple lighten-2" :disabled="isDisabled" text @click="add(index, product.id)">
                         ADD
                     </v-btn>
                 </v-card-actions>
@@ -57,7 +57,7 @@ export default {
         },
         add(index, id) {
             let url = this.$api + '/pesanan';
-
+        
             let formData = {
                 id_product: id,
                 id_user: localStorage.getItem('id'),
@@ -82,13 +82,19 @@ export default {
                 console.table(e);
             })
 
-            this.jumlah[index] = 0;
+            this.jumlah[index] = '';
         },
         resetSnackBar() {
             this.snackbar = false;
             this.color = '';
             this.error_message= '';
         },
+        
+    },
+    computed: {
+        isDisabled() {
+            return localStorage.getItem('token') === null;
+        }
     },
     mounted() {
         this.init();

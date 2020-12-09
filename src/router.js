@@ -45,6 +45,12 @@ const router = new VueRouter({
             name:"Table Pesanan",
             meta: {title: 'Table Pesanan', mustLogin: true},
             component: importComponent('TablePesanan'),
+        },
+        {
+            path:"/paneladmin",
+            name:"Panel Admin",
+            meta: {title: 'Panel Admin', mustLogin: true},
+            component: importComponent('AdminPanel')
         }
         ]
     },

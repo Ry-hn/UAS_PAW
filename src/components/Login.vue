@@ -85,7 +85,7 @@ export default {
         name: '',
         telepon: '',
         emptyRules: [ (v) => !!v || 'Field tidak boleh kosong :(', ], 
-        emailRules: [ v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) && !!v || 'E-mail valid dong  :(']
+        emailRules: [ v => !!v || 'E-mail valid dong  :(']
     }),
     methods: {
         login() {
@@ -120,6 +120,9 @@ export default {
                 }).then( (response) => { 
                     // console.log(`id : ${localStorage.getItem('token')}`);
                     location.reload();
+                    this.error_message = response.data.message;
+                    this.color="green";
+                    this.snackbar = true;
                     console.table(response);
                 }).catch( e => {
                     this.error_message = e.response.data.message;

@@ -33,7 +33,7 @@
             </v-card>
 
             <!-- anjay mabar -->
-            <v-btn v-if="user.role == 'ADMIN'" class="my-12 mx-16" width="400px" color="blue"> PANEL ADMIN </v-btn>
+            <v-btn v-if="user.role == 'ADMIN'" class="my-12 mx-16" width="400px" color="blue" href="/paneladmin"> PANEL ADMIN </v-btn>
 
         </v-col>
 
@@ -173,8 +173,11 @@ export default {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
-                }).then(() => {
-                    location.reload();
+                }).then((response) => {
+                    this.loadData();
+                    this.error_message = response.data.message;
+                    this.color = "green";
+                    this.snackbar = true;
                 }).catch(e => {
                     this.error_message = e.response.data.message;
                     this.color = "red";
